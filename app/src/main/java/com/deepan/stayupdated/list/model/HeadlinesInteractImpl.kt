@@ -2,14 +2,14 @@ package com.deepan.stayupdated.list.model
 
 import android.util.Log
 import com.deepan.stayupdated.helpers.HttpClient
-import com.deepan.stayupdated.list.presenter.NewsListPresenter
+import com.deepan.stayupdated.list.presenter.HeadlinesPresenter
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class NewsListInteractImpl(var presenter: NewsListPresenter) : NewsListInteract {
+class HeadlinesInteractImpl(var presenter: HeadlinesPresenter) : HeadlinesInteract {
 
     private var baseUrl = "https://newsapi.org/v2/top-headlines?apiKey=cef34057f6c54bc394d7f849dab354fd"
 

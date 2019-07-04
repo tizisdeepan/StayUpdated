@@ -5,10 +5,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"
-        tools:context=".list.view.NewsListActivity">
+        tools:context=".list.view.HeadlinesActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsRecyclerView"
+            android:id="@+id/headlinesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

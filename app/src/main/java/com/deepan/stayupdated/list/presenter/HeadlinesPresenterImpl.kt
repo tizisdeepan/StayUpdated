@@ -3,12 +3,12 @@ package com.deepan.stayupdated.list.presenter
 import android.util.Log
 import com.deepan.stayupdated.list.model.Filter
 import com.deepan.stayupdated.list.model.Headline
-import com.deepan.stayupdated.list.model.NewsListInteractImpl
-import com.deepan.stayupdated.list.view.NewsListContract
+import com.deepan.stayupdated.list.model.HeadlinesInteractImpl
+import com.deepan.stayupdated.list.view.HeadlinesContract
 
-class NewsListPresenterImpl(var contract: NewsListContract) : NewsListPresenter {
+class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresenter {
     var page = 0
-    private val interact: NewsListInteractImpl by lazy { NewsListInteractImpl(this) }
+    private val interact: HeadlinesInteractImpl by lazy { HeadlinesInteractImpl(this) }
     private val allHeadlines: ArrayList<Headline> = ArrayList()
 
     override fun getHeadlines(filter: Filter) {

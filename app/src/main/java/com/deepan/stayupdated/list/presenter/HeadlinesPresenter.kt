@@ -2,6 +2,6 @@ package com.deepan.stayupdated.list.presenter
 
 import com.deepan.stayupdated.list.model.Filter
 
-interface NewsListPresenter {
+interface HeadlinesPresenter {
     fun getHeadlines(filter: Filter)
 }

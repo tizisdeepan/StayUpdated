@@ -4,14 +4,17 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:padding="16dp">
+              android:padding="16dp"
+              android:clipToPadding="false"
+              android:clipChildren="false">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/headlineCard"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:cardCornerRadius="10dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#CECDCD">
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -32,35 +35,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:background="#7A000000"
+                        android:background="#70000000"
                         android:layout_alignParentTop="true"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:paddingTop="10dp"
+                        android:padding="10dp"
+                        android:maxLines="2"
                         android:textColor="#ffffff"/>
 
                 <TextView
                         android:id="@+id/time"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:background="#7A000000"
-                        android:layout_below="@+id/title"
-                        android:paddingStart="10dp"
+                        android:textSize="12sp"
+                        android:background="@drawable/textview_time_yellow"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginBottom="20dp"
+                        android:paddingStart="15dp"
                         android:paddingEnd="10dp"
                         android:paddingTop="5dp"
-                        android:paddingBottom="10dp"
-                        android:textColor="#ffffff"/>
-
-                <TextView
-                        android:id="@+id/description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:background="#7A000000"
-                        android:layout_alignParentBottom="true"
-                        android:padding="10dp"
-                        android:textColor="#ffffff"/>
+                        android:paddingBottom="5dp"
+                        android:maxLines="1"
+                        android:textColor="#000000"/>
 
             </RelativeLayout>
         </RelativeLayout>

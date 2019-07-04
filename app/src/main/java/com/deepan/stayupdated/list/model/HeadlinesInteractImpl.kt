@@ -28,6 +28,8 @@ class HeadlinesInteractImpl(var presenter: HeadlinesPresenter) : HeadlinesIntera
                 try {
                     val jsonData = response.body()?.string()
                     Log.e("RESPONSE", jsonData)
+                    val headlines = HeadlinesJSONParser.getHeadlines(jsonData)
+                    onSuccess(headlines)
                 } catch (e: Exception) {
                     onFailure(e.toString())
                 }

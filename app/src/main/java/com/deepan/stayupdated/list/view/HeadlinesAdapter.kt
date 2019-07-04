@@ -10,6 +10,7 @@ import com.deepan.stayupdated.R
 import com.deepan.stayupdated.list.model.Headline
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.launch
@@ -25,12 +26,13 @@ class HeadlinesAdapter(var headlines: ArrayList<Headline>) : RecyclerView.Adapte
     override fun getItemCount(): Int = headlines.size
 
     override fun onBindViewHolder(holder: VHHeadline, position: Int) {
-
+        holder.setData(ctx, headlines[holder.adapterPosition])
     }
 
-    private var eventActor =
-        GlobalScope.actor<ArrayList<Headline>>(capacity = Channel.CONFLATED) { for (list in channel) updateItemsInternal(list) }
+    @ObsoleteCoroutinesApi
+    private var eventActor = GlobalScope.actor<ArrayList<Headline>>(capacity = Channel.CONFLATED) { for (list in channel) updateItemsInternal(list) }
 
+    @ObsoleteCoroutinesApi
     fun updateItems(newList: ArrayList<Headline>) {
         val tempList: ArrayList<Headline> = ArrayList()
         tempList.addAll(newList)
@@ -51,7 +53,8 @@ class HeadlinesAdapter(var headlines: ArrayList<Headline>) : RecyclerView.Adapte
         }
     }
 
-    class PostsDiffCallback(private var oldList: ArrayList<Headline>, private var newList: ArrayList<Headline>) : DiffUtil.Callback() {
+    class PostsDiffCallback(private var oldList: ArrayList<Headline>, private var newList: ArrayList<Headline>) :
+        DiffUtil.Callback() {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             oldList[oldItemPosition].id == newList[newItemPosition].id
 

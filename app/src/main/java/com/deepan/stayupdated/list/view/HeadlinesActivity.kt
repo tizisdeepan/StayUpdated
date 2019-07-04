@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepan.stayupdated.R
 import com.deepan.stayupdated.helpers.RunOnUiThread
+import com.deepan.stayupdated.list.model.Category
 import com.deepan.stayupdated.list.model.Filter
 import com.deepan.stayupdated.list.model.Headline
 import com.deepan.stayupdated.list.presenter.HeadlinesPresenterImpl
@@ -46,6 +47,14 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
         presenter.getHeadlines(filter)
     }
 
+    fun updateFilterCategory(category: Category?) {
+        if (category != null) {
+            filter.category = category.type
+            refresh.isRefreshing = true
+            presenter.getHeadlines(filter, true)
+        }
+    }
+
     override fun endRefresh() {
         RunOnUiThread(this).safely {
             if (refresh.isRefreshing) refresh.isRefreshing = false
@@ -72,7 +81,11 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item?.itemId) {
         R.id.filter -> {
-            FilterFragment().show(supportFragmentManager, "Filter")
+            FilterFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable("FILTER", filter)
+                }
+            }.show(supportFragmentManager, "Filter")
             true
         }
         else -> super.onOptionsItemSelected(item)

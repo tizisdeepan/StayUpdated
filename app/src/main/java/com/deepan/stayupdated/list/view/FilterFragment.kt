@@ -28,28 +28,48 @@ class FilterFragment : BottomSheetDialogFragment() {
         return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.fragment_filter, container, false)
     }
 
+    private val categories: ArrayList<Category> = ArrayList()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val filter = Filter()
+        val filter = arguments?.getParcelable("FILTER") as? Filter
 
-        val categories: ArrayList<Category> = ArrayList()
-        categories.add(Category(Categories.ALL, filter.category == Categories.ALL))
-        categories.add(Category(Categories.BUSINESS, filter.category == Categories.BUSINESS))
-        categories.add(Category(Categories.ENTERTAINMENT, filter.category == Categories.ENTERTAINMENT))
-        categories.add(Category(Categories.GENERAL, filter.category == Categories.GENERAL))
-        categories.add(Category(Categories.HEALTH, filter.category == Categories.HEALTH))
-        categories.add(Category(Categories.SCIENCE, filter.category == Categories.SCIENCE))
-        categories.add(Category(Categories.SPORTS, filter.category == Categories.SPORTS))
-        categories.add(Category(Categories.TECHNOLOGY, filter.category == Categories.TECHNOLOGY))
+        categories.add(Category(Categories.ALL, filter?.category == Categories.ALL))
+        categories.add(Category(Categories.BUSINESS, filter?.category == Categories.BUSINESS))
+        categories.add(Category(Categories.ENTERTAINMENT, filter?.category == Categories.ENTERTAINMENT))
+        categories.add(Category(Categories.GENERAL, filter?.category == Categories.GENERAL))
+        categories.add(Category(Categories.HEALTH, filter?.category == Categories.HEALTH))
+        categories.add(Category(Categories.SCIENCE, filter?.category == Categories.SCIENCE))
+        categories.add(Category(Categories.SPORTS, filter?.category == Categories.SPORTS))
+        categories.add(Category(Categories.TECHNOLOGY, filter?.category == Categories.TECHNOLOGY))
 
         categoryRecyclerView.layoutManager = LinearLayoutManager(ctx)
         categoryRecyclerView.itemAnimator = null
-        
+        updateCategories()
+
+        apply.setOnClickListener {
+            var category: Category? = null
+            for(c in categories){
+                if(c.isSelected) category = c
+            }
+            (activity as? HeadlinesActivity)?.updateFilterCategory(category)
+            dismiss()
+        }
 
         title.typeface = FontsHelper[ctx, FontsConstants.BOLD]
         apply.typeface = FontsHelper[ctx, FontsConstants.BOLD]
         categoryLabel.typeface = FontsHelper[ctx, FontsConstants.BOLD]
+    }
+
+    private fun updateCategories() {
+        categoryRecyclerView.adapter = CategoriesAdapter(categories, this::onCategorySelected)
+    }
+
+    private fun onCategorySelected(category: Category) {
+        for (c in categories) {
+            c.isSelected = c.type == category.type
+        }
+        updateCategories()
     }
 }

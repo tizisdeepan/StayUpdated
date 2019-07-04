@@ -76,7 +76,7 @@
                             android:gravity="start|center_vertical"
                             android:text="@string/filter_select_a_category"
                             android:textColor="#ffffff"
-                            android:textSize="18sp"/>
+                            android:textSize="20sp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/categoryRecyclerView"

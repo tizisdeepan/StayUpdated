@@ -29,28 +29,16 @@ class HeadlinesAdapter(var headlines: ArrayList<Headline>) : RecyclerView.Adapte
         holder.setData(ctx, headlines[holder.adapterPosition])
     }
 
-    @ObsoleteCoroutinesApi
-    private var eventActor = GlobalScope.actor<ArrayList<Headline>>(capacity = Channel.CONFLATED) { for (list in channel) updateItemsInternal(list) }
-
-    @ObsoleteCoroutinesApi
-    fun updateItems(newList: ArrayList<Headline>) {
-        val tempList: ArrayList<Headline> = ArrayList()
-        tempList.addAll(newList)
-        eventActor.offer(tempList)
-    }
-
     lateinit var diffResult: DiffUtil.DiffResult
-    private fun updateItemsInternal(newList: ArrayList<Headline>) {
+    fun updateItems(newList: ArrayList<Headline>) {
         diffResult = DiffUtil.calculateDiff(PostsDiffCallback(this@HeadlinesAdapter.headlines, newList))
         dispatchItems(newList, diffResult)
     }
 
     private fun dispatchItems(newList: ArrayList<Headline>, diffResult: DiffUtil.DiffResult) {
-        GlobalScope.launch(Dispatchers.Main) {
-            diffResult.dispatchUpdatesTo(this@HeadlinesAdapter)
-            headlines.clear()
-            headlines.addAll(newList)
-        }
+        diffResult.dispatchUpdatesTo(this@HeadlinesAdapter)
+        headlines.clear()
+        headlines.addAll(newList)
     }
 
     class PostsDiffCallback(private var oldList: ArrayList<Headline>, private var newList: ArrayList<Headline>) :

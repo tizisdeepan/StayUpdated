@@ -4,7 +4,10 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:padding="16dp"
+              android:paddingStart="16dp"
+              android:paddingEnd="16dp"
+              android:paddingTop="8dp"
+              android:paddingBottom="8dp"
               android:clipToPadding="false"
               android:clipChildren="false">
 
@@ -14,7 +17,7 @@
             android:layout_height="250dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#CECDCD">
+            app:cardBackgroundColor="#5C5B5B">
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -24,7 +27,6 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -38,7 +40,7 @@
                         android:background="#70000000"
                         android:layout_alignParentTop="true"
                         android:padding="10dp"
-                        android:maxLines="2"
+                        android:maxLines="3"
                         android:textColor="#ffffff"/>
 
                 <TextView

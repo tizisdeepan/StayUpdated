@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Stay Updated</string>
+    <string name="menu_filter">Filter</string>
 </resources>

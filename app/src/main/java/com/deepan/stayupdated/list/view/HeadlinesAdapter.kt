@@ -55,8 +55,11 @@ class HeadlinesAdapter(var headlines: ArrayList<Headline>) : RecyclerView.Adapte
 
     class PostsDiffCallback(private var oldList: ArrayList<Headline>, private var newList: ArrayList<Headline>) :
         DiffUtil.Callback() {
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = try {
             oldList[oldItemPosition].id == newList[newItemPosition].id
+        } catch (e: Exception) {
+            false
+        }
 
         override fun getOldListSize(): Int = oldList.size
 

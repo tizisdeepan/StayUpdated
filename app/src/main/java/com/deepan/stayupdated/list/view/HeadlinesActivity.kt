@@ -1,5 +1,6 @@
 package com.deepan.stayupdated.list.view
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -75,4 +76,6 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
         }
         else -> super.onOptionsItemSelected(item)
     }
+
+    override fun getMyContext(): Context = this
 }

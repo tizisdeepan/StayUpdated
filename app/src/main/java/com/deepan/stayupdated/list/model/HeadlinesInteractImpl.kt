@@ -11,11 +11,9 @@ import java.io.IOException
 class HeadlinesInteractImpl : HeadlinesInteract {
 
     override fun getHeadlines(filter: Filter, page: Int, onSuccess: (ArrayList<Headline>) -> Unit, onFailure: (String) -> Unit) {
-        var baseUrl = "https://newsapi.org/v2/top-headlines?apiKey=cef34057f6c54bc394d7f849dab354fd"
+        var baseUrl = "https://newsapi.org/v2/top-headlines?apiKey=cef34057f6c54bc394d7f849dab354fd&country=us&pageSize=25"
         if (page != 1) baseUrl += "&page=$page"
-        if (filter.country.isNotEmpty()) baseUrl += "&country=${filter.country}"
-        if (filter.pageSize != 0) baseUrl += "&pageSize=${filter.pageSize}"
-        if (filter.category.isNotEmpty()) baseUrl += "&category=${filter.category}"
+        if (filter.category != Categories.ALL) baseUrl += "&category=${filter.category}"
         val request = Request.Builder().url(baseUrl).build()
         Log.e("UTL INFO", baseUrl)
         HttpClient().makeNewClient.newCall(request).enqueue(object : Callback {
@@ -26,7 +24,6 @@ class HeadlinesInteractImpl : HeadlinesInteract {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val jsonData = response.body()?.string()
-                    //                    Log.e("RESPONSE", jsonData)
                     val headlines = HeadlinesJSONParser.getHeadlines(jsonData)
                     onSuccess(headlines)
                 } catch (e: Exception) {

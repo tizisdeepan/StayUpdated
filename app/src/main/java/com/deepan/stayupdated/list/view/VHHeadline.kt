@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.deepan.stayupdated.helpers.FontsConstants
+import com.deepan.stayupdated.helpers.FontsHelper
 import com.deepan.stayupdated.list.model.Headline
 import kotlinx.android.synthetic.main.headline_item.view.*
 
@@ -24,5 +26,8 @@ class VHHeadline(view: View) : RecyclerView.ViewHolder(view) {
         Glide.with(ctx).load(headline.imageUrl).apply(RequestOptions().centerCrop())
             .transition(DrawableTransitionOptions.withCrossFade()).into(image)
         headlineCard.preventCornerOverlap = false
+
+        title.typeface = FontsHelper[ctx, FontsConstants.BOLD]
+        time.typeface = FontsHelper[ctx, FontsConstants.SEMIBOLD]
     }
 }

@@ -72,6 +72,7 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item?.itemId) {
         R.id.filter -> {
+            FilterFragment().show(supportFragmentManager, "Filter")
             true
         }
         else -> super.onOptionsItemSelected(item)

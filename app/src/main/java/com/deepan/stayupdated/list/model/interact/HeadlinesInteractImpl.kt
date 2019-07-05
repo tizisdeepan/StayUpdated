@@ -1,7 +1,10 @@
-package com.deepan.stayupdated.list.model
+package com.deepan.stayupdated.list.model.interact
 
 import android.util.Log
 import com.deepan.stayupdated.helpers.HttpClient
+import com.deepan.stayupdated.list.model.Categories
+import com.deepan.stayupdated.list.model.Filter
+import com.deepan.stayupdated.list.model.Headline
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request
@@ -24,6 +27,7 @@ class HeadlinesInteractImpl : HeadlinesInteract {
             override fun onResponse(call: Call, response: Response) {
                 try {
                     val jsonData = response.body()?.string()
+                    Log.e("Response", jsonData)
                     val headlines = HeadlinesJSONParser.getHeadlines(jsonData)
                     onSuccess(headlines)
                 } catch (e: Exception) {

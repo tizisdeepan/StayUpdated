@@ -8,12 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.deepan.stayupdated.R
 import com.deepan.stayupdated.list.model.Headline
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.launch
+import com.deepan.stayupdated.list.view.viewholders.VHHeadline
 
 class HeadlinesAdapter(var headlines: ArrayList<Headline>) : RecyclerView.Adapter<VHHeadline>() {
 

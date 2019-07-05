@@ -1,4 +1,4 @@
-package com.deepan.stayupdated.list.view
+package com.deepan.stayupdated.list.view.viewholders
 
 import android.content.Context
 import android.graphics.Color
@@ -15,7 +15,7 @@ import com.deepan.stayupdated.list.model.Categories
 import com.deepan.stayupdated.list.model.Category
 import kotlinx.android.synthetic.main.category_item.view.*
 
-class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class VHCategory(view: View) : RecyclerView.ViewHolder(view) {
 
     val categoryFrame: FrameLayout = view.categoryFrame
     private val categorySelectionFrame: RelativeLayout = view.categorySelectionFrame
@@ -44,6 +44,6 @@ class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             categorySelectionFrame.setBackgroundResource(0)
         }
 
-        categoryLabel.typeface = FontsHelper[ctx, FontsConstants.SEMIBOLD]
+        categoryLabel.typeface = FontsHelper[ctx, FontsConstants.BOLD]
     }
 }

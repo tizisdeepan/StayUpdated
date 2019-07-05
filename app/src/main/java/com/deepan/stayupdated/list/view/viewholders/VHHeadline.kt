@@ -1,4 +1,4 @@
-package com.deepan.stayupdated.list.view
+package com.deepan.stayupdated.list.view.viewholders
 
 import android.content.Context
 import android.content.Intent

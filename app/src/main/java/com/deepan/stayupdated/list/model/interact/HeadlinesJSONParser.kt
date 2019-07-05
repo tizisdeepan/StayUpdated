@@ -1,6 +1,7 @@
-package com.deepan.stayupdated.list.model
+package com.deepan.stayupdated.list.model.interact
 
 import com.deepan.stayupdated.helpers.DateUtil
+import com.deepan.stayupdated.list.model.Headline
 import org.json.JSONObject
 
 object HeadlinesJSONParser {

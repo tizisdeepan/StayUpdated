@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepan.stayupdated.R
+import com.deepan.stayupdated.helpers.NetworkUtil
 import com.deepan.stayupdated.helpers.RunOnUiThread
 import com.deepan.stayupdated.list.model.Category
 import com.deepan.stayupdated.list.model.Filter
@@ -35,23 +36,29 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
             override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if ((headlinesRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == (headlinesRecyclerView.layoutManager as LinearLayoutManager).itemCount - 1) {
-                    presenter.getHeadlines(filter)
+                    refresh.isRefreshing = true
+                    fetchData(false)
                 }
             }
         })
 
         refresh.setOnRefreshListener {
-            presenter.getHeadlines(filter, true)
+            fetchData(true)
         }
 
-        presenter.getHeadlines(filter)
+        refresh.isRefreshing = true
+        fetchData(false)
+    }
+
+    private fun fetchData(isRefresh: Boolean) {
+        presenter.getHeadlines(NetworkUtil.isConnected(this), filter, isRefresh)
     }
 
     fun updateFilterCategory(category: Category?) {
         if (category != null) {
             filter.category = category.type
             refresh.isRefreshing = true
-            presenter.getHeadlines(filter, true)
+            fetchData(true)
         }
     }
 

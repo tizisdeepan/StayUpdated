@@ -4,17 +4,17 @@ import android.util.Log
 import com.deepan.stayupdated.helpers.NetworkUtil
 import com.deepan.stayupdated.list.model.Filter
 import com.deepan.stayupdated.list.model.Headline
-import com.deepan.stayupdated.list.model.HeadlinesInteractImpl
+import com.deepan.stayupdated.list.model.interact.HeadlinesInteractImpl
 import com.deepan.stayupdated.list.view.HeadlinesContract
 
 class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresenter {
     private var page = 1
-    private val interact: HeadlinesInteractImpl by lazy { HeadlinesInteractImpl() }
-    private val allHeadlines: ArrayList<Headline> = ArrayList()
+    val interact: HeadlinesInteractImpl by lazy { HeadlinesInteractImpl() }
+    val allHeadlines: ArrayList<Headline> = ArrayList()
     private var isLoading = false
 
-    override fun getHeadlines(filter: Filter, isRefresh: Boolean) {
-        if (NetworkUtil.isConnected(contract.getMyContext())) {
+    override fun getHeadlines(isConnected: Boolean, filter: Filter, isRefresh: Boolean) {
+        if (isConnected) {
             if (isRefresh) {
                 page = 1
                 allHeadlines.clear()
@@ -26,7 +26,7 @@ class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresent
         } else getHeadlinesOnFailure("No Internet Available!")
     }
 
-    private fun getHeadlinesOnSuccess(headlines: ArrayList<Headline>) {
+    override fun getHeadlinesOnSuccess(headlines: ArrayList<Headline>) {
         isLoading = false
         contract.endRefresh()
         if (headlines.isNotEmpty()) {
@@ -36,9 +36,10 @@ class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresent
         } else page = -1
     }
 
-    private fun getHeadlinesOnFailure(error: String) {
+    override fun getHeadlinesOnFailure(error: String) {
         isLoading = false
         contract.endRefresh()
+        contract.showError()
         Log.e("Error Occured", error)
     }
 }

@@ -36,7 +36,6 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
             override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if ((headlinesRecyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() == (headlinesRecyclerView.layoutManager as LinearLayoutManager).itemCount - 1) {
-                    refresh.isRefreshing = true
                     fetchData(false)
                 }
             }
@@ -46,13 +45,14 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
             fetchData(true)
         }
 
-        refresh.isRefreshing = true
         fetchData(false)
     }
 
     private fun fetchData(isRefresh: Boolean) {
         presenter.getHeadlines(NetworkUtil.isConnected(this), filter, isRefresh)
     }
+
+    override fun getFilterModel(): Filter = filter
 
     fun updateFilterCategory(category: Category?) {
         if (category != null) {
@@ -65,6 +65,12 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
     override fun endRefresh() {
         RunOnUiThread(this).safely {
             if (refresh.isRefreshing) refresh.isRefreshing = false
+        }
+    }
+
+    override fun startRefresh() {
+        RunOnUiThread(this).safely {
+            if (!refresh.isRefreshing) refresh.isRefreshing = true
         }
     }
 

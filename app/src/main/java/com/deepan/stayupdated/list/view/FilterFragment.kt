@@ -57,7 +57,7 @@ class FilterFragment : BottomSheetDialogFragment() {
             dismiss()
         }
 
-        title.typeface = FontsHelper[ctx, FontsConstants.BOLD]
+        headlineTitle.typeface = FontsHelper[ctx, FontsConstants.BOLD]
         apply.typeface = FontsHelper[ctx, FontsConstants.BOLD]
         categoryLabel.typeface = FontsHelper[ctx, FontsConstants.BOLD]
     }

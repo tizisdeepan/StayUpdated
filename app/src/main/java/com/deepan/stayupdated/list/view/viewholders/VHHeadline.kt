@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.headline_item.view.*
 
 class VHHeadline(view: View) : RecyclerView.ViewHolder(view) {
     private val headlineCard: CardView = view.headlineCard
-    private val title: TextView = view.title
+    private val title: TextView = view.headlineTitle
     private val time: TextView = view.time
     private val image: ImageView = view.image
 

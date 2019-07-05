@@ -1,6 +1,6 @@
 # StayUpdated
 
-This is an Android App that uses the free version of apixu weather API to show the current temperature along with the temperature forecast for the next 4 days
+This is an Android App that uses the free version of newsapi.org news API to show the current headlines along with the details of any headline one click away.
 
 ## Building the App
 

@@ -6,9 +6,8 @@ import com.deepan.stayupdated.list.model.Headline
 class HeadlinesDbManager(var ctx: Context) {
 
     fun getHeadlines(category: String): ArrayList<Headline> {
-        val constants = HeadlinesDbConstants(category)
         val headlines: ArrayList<Headline> = ArrayList()
-        val cursor = HeadlinesDbManipulation(ctx, constants).getAllHeadlines()
+        val cursor = HeadlinesDbManipulation(ctx, category).getAllHeadlines()
         if (cursor != null && cursor.count != 0) {
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {

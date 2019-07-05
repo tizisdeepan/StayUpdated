@@ -4,7 +4,7 @@ package com.deepan.stayupdated.list.model.database
  * Created by deepan-5901 on 05/12/17.
  */
 class HeadlinesDbConstants(var category: String) {
-    val DATABASE_NAME = "Headlines_$category.db"
+    val DATABASE_NAME = "${category}Headlines.db"
 
     val TABLE_NAME = "headlines"
 

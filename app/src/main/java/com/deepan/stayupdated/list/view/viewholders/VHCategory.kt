@@ -23,16 +23,7 @@ class VHCategory(view: View) : RecyclerView.ViewHolder(view) {
     private val selectedIv: ImageView = view.selectedIv
 
     fun setData(ctx: Context, category: Category) {
-        categoryLabel.text = when (category.type) {
-            Categories.ALL -> ctx.resources.getString(R.string.category_all)
-            Categories.BUSINESS -> ctx.resources.getString(R.string.category_business)
-            Categories.ENTERTAINMENT -> ctx.resources.getString(R.string.category_entertainment)
-            Categories.GENERAL -> ctx.resources.getString(R.string.category_general)
-            Categories.HEALTH -> ctx.resources.getString(R.string.category_health)
-            Categories.SCIENCE -> ctx.resources.getString(R.string.category_science)
-            Categories.SPORTS -> ctx.resources.getString(R.string.category_sports)
-            Categories.TECHNOLOGY -> ctx.resources.getString(R.string.category_technology)
-        }
+        categoryLabel.text = category.type.getValue(ctx)
 
         if (category.isSelected) {
             selectedIv.visibility = View.VISIBLE

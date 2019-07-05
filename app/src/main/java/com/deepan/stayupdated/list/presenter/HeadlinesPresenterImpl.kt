@@ -1,11 +1,8 @@
 package com.deepan.stayupdated.list.presenter
 
 import android.util.Log
-import com.deepan.stayupdated.R
-import com.deepan.stayupdated.list.model.Categories
 import com.deepan.stayupdated.list.model.Filter
 import com.deepan.stayupdated.list.model.Headline
-import com.deepan.stayupdated.list.model.database.HeadlinesDbConstants
 import com.deepan.stayupdated.list.model.database.HeadlinesDbManager
 import com.deepan.stayupdated.list.model.database.HeadlinesDbManipulation
 import com.deepan.stayupdated.list.model.interact.HeadlinesInteractImpl
@@ -14,8 +11,8 @@ import org.jetbrains.anko.doAsync
 
 class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresenter {
     private var page = 1
-    val interact: HeadlinesInteractImpl by lazy { HeadlinesInteractImpl() }
-    val allHeadlines: ArrayList<Headline> = ArrayList()
+    private val interact: HeadlinesInteractImpl by lazy { HeadlinesInteractImpl() }
+    private val allHeadlines: ArrayList<Headline> = ArrayList()
     private var isLoading = false
 
     override fun getHeadlines(isConnected: Boolean, filter: Filter, isRefresh: Boolean) {
@@ -45,41 +42,19 @@ class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresent
 
     override fun getHeadlinesOnFailure(error: String) {
         doAsync {
-            val headlines = HeadlinesDbManager(contract.getMyContext()).getHeadlines(when (contract.getFilterModel().category) {
-                                                                                         Categories.ALL -> contract.getMyContext().resources.getString(R.string.category_all)
-                                                                                         Categories.BUSINESS -> contract.getMyContext().resources.getString(R.string.category_business)
-                                                                                         Categories.ENTERTAINMENT -> contract.getMyContext().resources.getString(R.string.category_entertainment)
-                                                                                         Categories.GENERAL -> contract.getMyContext().resources.getString(R.string.category_general)
-                                                                                         Categories.HEALTH -> contract.getMyContext().resources.getString(R.string.category_health)
-                                                                                         Categories.SCIENCE -> contract.getMyContext().resources.getString(R.string.category_science)
-                                                                                         Categories.SPORTS -> contract.getMyContext().resources.getString(R.string.category_sports)
-                                                                                         Categories.TECHNOLOGY -> contract.getMyContext().resources.getString(R.string.category_technology)
-                                                                                     })
-            if (headlines.isNotEmpty()) {
-                isLoading = false
-                contract.endRefresh()
-                contract.updateHeadlines(headlines)
-            } else {
-                isLoading = false
-                contract.endRefresh()
-                contract.showError()
-            }
+            val headlines = HeadlinesDbManager(contract.getMyContext()).getHeadlines(contract.getFilterModel().category.getValue(contract.getMyContext()))
+            Log.e("First", headlines[0].toString())
+            isLoading = false
+            contract.endRefresh()
+            contract.updateHeadlines(headlines)
+            if (headlines.isEmpty()) contract.showError()
         }
         Log.e("Error Occured", error)
     }
 
-    fun updateCachedData() {
+    private fun updateCachedData() {
         doAsync {
-            val manager = HeadlinesDbManipulation(contract.getMyContext(), HeadlinesDbConstants(when (contract.getFilterModel().category) {
-                Categories.ALL -> contract.getMyContext().resources.getString(R.string.category_all)
-                Categories.BUSINESS -> contract.getMyContext().resources.getString(R.string.category_business)
-                Categories.ENTERTAINMENT -> contract.getMyContext().resources.getString(R.string.category_entertainment)
-                Categories.GENERAL -> contract.getMyContext().resources.getString(R.string.category_general)
-                Categories.HEALTH -> contract.getMyContext().resources.getString(R.string.category_health)
-                Categories.SCIENCE -> contract.getMyContext().resources.getString(R.string.category_science)
-                Categories.SPORTS -> contract.getMyContext().resources.getString(R.string.category_sports)
-                Categories.TECHNOLOGY -> contract.getMyContext().resources.getString(R.string.category_technology)
-            }))
+            val manager = HeadlinesDbManipulation(contract.getMyContext(), contract.getFilterModel().category.getValue(contract.getMyContext()))
             manager.clearHeadlinesDb()
             allHeadlines.forEach { manager.insertSNData(it) }
         }

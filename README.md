@@ -32,8 +32,3 @@ Connect an Android device to your development machine.
 
 * Install the debug APK on your device `./gradlew installDebug`
 * Start the APK: `<path to Android SDK>/platform-tools/adb -d shell am start com.deepan.stayupdated.list.view/com.deepan.stayupdated.list.view.HeadlinesActivity`
-
-
-## Using the Sample App
-
-Allow the required location permissions and let the app load the weather data. After a few seconds, the data is displayed in the app. If there seems to be a problem, a red error screen is displayed.

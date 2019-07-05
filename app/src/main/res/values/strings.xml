@@ -11,4 +11,5 @@
     <string name="category_science">Science</string>
     <string name="category_sports">Sports</string>
     <string name="category_technology">Technology</string>
+    <string name="headlines">Headlines</string>
 </resources>

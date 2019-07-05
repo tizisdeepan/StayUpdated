@@ -1,12 +1,15 @@
 package com.deepan.stayupdated.list.view
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepan.stayupdated.R
+import com.deepan.stayupdated.helpers.FontsConstants
+import com.deepan.stayupdated.helpers.FontsHelper
 import com.deepan.stayupdated.helpers.NetworkUtil
 import com.deepan.stayupdated.helpers.RunOnUiThread
 import com.deepan.stayupdated.list.model.Category
@@ -14,7 +17,6 @@ import com.deepan.stayupdated.list.model.Filter
 import com.deepan.stayupdated.list.model.Headline
 import com.deepan.stayupdated.list.presenter.HeadlinesPresenterImpl
 import kotlinx.android.synthetic.main.activity_news_list.*
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
 
@@ -24,8 +26,8 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
-
         titleColor = resources.getColor(R.color.white)
+        title = filter.category.getValue(this) + " " + this.resources.getString(R.string.headlines)
 
         headlinesRecyclerView.layoutManager = LinearLayoutManager(this)
         headlinesRecyclerView.itemAnimator = null
@@ -46,6 +48,8 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
         }
 
         fetchData(false)
+
+        errorLabel.typeface = FontsHelper[this, FontsConstants.BOLD]
     }
 
     private fun fetchData(isRefresh: Boolean) {
@@ -57,6 +61,7 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
     fun updateFilterCategory(category: Category?) {
         if (category != null) {
             filter.category = category.type
+            title = filter.category.getValue(this) + " " + this.resources.getString(R.string.headlines)
             refresh.isRefreshing = true
             fetchData(true)
         }
@@ -74,16 +79,20 @@ class HeadlinesActivity : AppCompatActivity(), HeadlinesContract {
         }
     }
 
-    @ObsoleteCoroutinesApi
     override fun updateHeadlines(headlines: ArrayList<Headline>) {
         RunOnUiThread(this).safely {
+            errorLabel.visibility = View.GONE
             (headlinesRecyclerView.adapter as? HeadlinesAdapter)?.updateItems(headlines)
         }
     }
 
-    override fun showError() {
+    override fun showError(error: String) {
         RunOnUiThread(this).safely {
-
+            if (error.isNotEmpty()) {
+                updateHeadlines(ArrayList())
+                errorLabel.visibility = View.VISIBLE
+                errorLabel.text = error
+            }
         }
     }
 

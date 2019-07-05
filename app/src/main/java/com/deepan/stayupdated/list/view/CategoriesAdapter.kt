@@ -8,10 +8,10 @@ import com.deepan.stayupdated.R
 import com.deepan.stayupdated.list.model.Category
 import com.deepan.stayupdated.list.view.viewholders.VHCategory
 
-class CategoriesAdapter(var categories: ArrayList<Category>, var onCategorySelected: (category: Category) -> Unit) :
+class CategoriesAdapter(private var categories: ArrayList<Category>, var onCategorySelected: (category: Category) -> Unit) :
     RecyclerView.Adapter<VHCategory>() {
 
-    lateinit var ctx: Context
+    private lateinit var ctx: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHCategory {
         ctx = parent.context
         return VHCategory(LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false))

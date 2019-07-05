@@ -21,7 +21,7 @@ class HeadlinesInteractImpl : HeadlinesInteract {
         Log.e("UTL INFO", baseUrl)
         HttpClient().makeNewClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                onFailure(e.toString())
+                onFailure("Something went wrong!")
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -31,7 +31,7 @@ class HeadlinesInteractImpl : HeadlinesInteract {
                     val headlines = HeadlinesJSONParser.getHeadlines(jsonData)
                     onSuccess(headlines)
                 } catch (e: Exception) {
-                    onFailure(e.toString())
+                    onFailure("Something went wrong!")
                 }
             }
         })

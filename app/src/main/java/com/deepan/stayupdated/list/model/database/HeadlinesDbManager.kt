@@ -5,7 +5,7 @@ import com.deepan.stayupdated.list.model.Headline
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class HeadlinesDbManager(var ctx: Context) {
+class HeadlinesDbManager(private var ctx: Context) {
 
     fun getHeadlines(category: String): ArrayList<Headline> {
         val headlines: ArrayList<Headline> = ArrayList()

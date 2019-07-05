@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_filter.*
 
 class FilterFragment : BottomSheetDialogFragment() {
 
-    lateinit var ctx: Context
+    private lateinit var ctx: Context
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         ctx = inflater.context

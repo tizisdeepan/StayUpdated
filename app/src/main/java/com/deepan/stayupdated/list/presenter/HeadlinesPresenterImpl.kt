@@ -8,9 +8,8 @@ import com.deepan.stayupdated.list.model.database.HeadlinesDbManipulation
 import com.deepan.stayupdated.list.model.interact.HeadlinesInteractImpl
 import com.deepan.stayupdated.list.view.HeadlinesContract
 import com.google.gson.Gson
-import org.jetbrains.anko.doAsync
 
-class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresenter {
+class HeadlinesPresenterImpl(private var contract: HeadlinesContract) : HeadlinesPresenter {
     private var page = 1
     private val interact: HeadlinesInteractImpl by lazy { HeadlinesInteractImpl() }
     private val allHeadlines: ArrayList<Headline> = ArrayList()
@@ -46,8 +45,8 @@ class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresent
         if (headlines.isNotEmpty()) Log.e("First", headlines[0].toString())
         isLoading = false
         contract.endRefresh()
-        contract.updateHeadlines(headlines)
-        if (headlines.isEmpty()) contract.showError()
+        if (headlines.isNotEmpty()) contract.updateHeadlines(headlines)
+        else contract.showError(error)
         Log.e("Error Occured", error)
     }
 

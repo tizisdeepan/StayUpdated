@@ -1,5 +1,4 @@
 # StayUpdated
-=============
 
 This is an Android App that uses the free version of apixu weather API to show the current temperature along with the temperature forecast for the next 4 days
 

@@ -7,6 +7,7 @@ import com.deepan.stayupdated.list.model.database.HeadlinesDbManager
 import com.deepan.stayupdated.list.model.database.HeadlinesDbManipulation
 import com.deepan.stayupdated.list.model.interact.HeadlinesInteractImpl
 import com.deepan.stayupdated.list.view.HeadlinesContract
+import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 
 class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresenter {
@@ -41,22 +42,18 @@ class HeadlinesPresenterImpl(var contract: HeadlinesContract) : HeadlinesPresent
     }
 
     override fun getHeadlinesOnFailure(error: String) {
-        doAsync {
-            val headlines = HeadlinesDbManager(contract.getMyContext()).getHeadlines(contract.getFilterModel().category.getValue(contract.getMyContext()))
-            Log.e("First", headlines[0].toString())
-            isLoading = false
-            contract.endRefresh()
-            contract.updateHeadlines(headlines)
-            if (headlines.isEmpty()) contract.showError()
-        }
+        val headlines = HeadlinesDbManager(contract.getMyContext()).getHeadlines(contract.getFilterModel().category.getValue(contract.getMyContext()))
+        if (headlines.isNotEmpty()) Log.e("First", headlines[0].toString())
+        isLoading = false
+        contract.endRefresh()
+        contract.updateHeadlines(headlines)
+        if (headlines.isEmpty()) contract.showError()
         Log.e("Error Occured", error)
     }
 
     private fun updateCachedData() {
-        doAsync {
-            val manager = HeadlinesDbManipulation(contract.getMyContext(), contract.getFilterModel().category.getValue(contract.getMyContext()))
-            manager.clearHeadlinesDb()
-            allHeadlines.forEach { manager.insertSNData(it) }
-        }
+        val manager = HeadlinesDbManipulation(contract.getMyContext())
+        manager.clearHeadlinesDb(contract.getFilterModel().category.getValue(contract.getMyContext()))
+        manager.insertSNData(contract.getFilterModel().category.getValue(contract.getMyContext()), Gson().toJson(allHeadlines))
     }
 }

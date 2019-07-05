@@ -1,23 +1,20 @@
 package com.deepan.stayupdated.list.model.database
 
-import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.util.Log
-import com.deepan.stayupdated.list.model.Headline
 import org.jetbrains.anko.db.insert
 
-class HeadlinesDbManipulation(var context: Context, var category: String) {
+class HeadlinesDbManipulation(var context: Context) {
 
     private var dbHelper: HeadlinesDbHandler? = null
 
     init {
-        dbHelper = HeadlinesDbHandler.getInstance(context, category)
+        dbHelper = HeadlinesDbHandler.getInstance(context)
     }
 
-    fun insertSNData(headline: Headline): Boolean {
+    fun insertSNData(category: String, headlineJson: String): Boolean {
         return try {
-            dbHelper?.readableDatabase?.insert(HeadlinesDbConstants(category).TABLE_NAME, HeadlinesDbConstants(category).ID to headline.id, HeadlinesDbConstants(category).SOURCE_ID to headline.sourceId, HeadlinesDbConstants(category).SOURCE_NAME to headline.sourceName, HeadlinesDbConstants(category).AUTHOR to headline.author, HeadlinesDbConstants(category).TITLE to headline.title, HeadlinesDbConstants(category).DESCRIPTION to headline.description, HeadlinesDbConstants(category).URL to headline.url, HeadlinesDbConstants(category).IMAGE_URL to headline.imageUrl, HeadlinesDbConstants(category).TIME to headline.time)
+            dbHelper?.readableDatabase?.insert(HeadlinesDbConstants.TABLE_NAME, HeadlinesDbConstants.CATEGORY to category, HeadlinesDbConstants.HEADLINE to headlineJson)
             true
         } catch (e: Exception) {
             Log.e("SQL ERROR ", e.toString())
@@ -25,11 +22,23 @@ class HeadlinesDbManipulation(var context: Context, var category: String) {
         }
     }
 
-    fun getAllHeadlines(): Cursor? = dbHelper?.readableDatabase?.rawQuery("SELECT * FROM " + HeadlinesDbConstants(category).TABLE_NAME, null)
-
-    fun clearHeadlinesDb(): Boolean {
+    fun getAllHeadlines(category: String): String? {
+        val args = arrayOf(category)
+        val cursor = dbHelper?.readableDatabase?.query(HeadlinesDbConstants.TABLE_NAME, null, "${HeadlinesDbConstants.CATEGORY}=?", args, null, null, null)
         return try {
-            dbHelper?.readableDatabase?.delete(HeadlinesDbConstants(category).TABLE_NAME, "1", null) ?: 0 > 0
+            cursor?.moveToFirst()
+            cursor?.getString(HeadlinesColumnInfo.headline)
+        } catch (e: Exception) {
+            null
+        } finally {
+            cursor?.close()
+        }
+    }
+
+    fun clearHeadlinesDb(category: String): Boolean {
+        val args = arrayOf(category)
+        return try {
+            dbHelper?.readableDatabase?.delete(HeadlinesDbConstants.TABLE_NAME, "${HeadlinesDbConstants.CATEGORY}=?", args) ?: 0 > 0
         } catch (e: Exception) {
             Log.e("SQL DELETE ", e.toString())
             false
